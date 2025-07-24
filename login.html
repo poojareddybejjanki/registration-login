@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+            width: 350px;
+        }
+        h2 {
+            text-align: center;
+        }
+        input[type="text"], input[type="password"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"], button {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover, button:hover {
+            background-color: #0056b3;
+        }
+        #message {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        #messageForm {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container" id="loginForm">
+    <h2>Login</h2>
+    <form onsubmit="loginUser(event)">
+        <input type="text" id="loginUsername" placeholder="Enter username" required>
+        <input type="password" id="loginPassword" placeholder="Enter password" required>
+        <input type="submit" value="Login">
+    </form>
+    <div id="message"></div>
+</div>
+
+<!-- Message Form (appears only after successful login) -->
+<div class="form-container" id="messageForm">
+    <h2>Send a Message</h2>
+    <textarea id="userMessage" rows="5" placeholder="Type your message here..."></textarea>
+    <button onclick="submitMessage()">Submit Message</button>
+    <div id="finalMessage"></div>
+</div>
+
+<script>
+    function loginUser(event) {
+        event.preventDefault();
+
+        const enteredUsername = document.getElementById("loginUsername").value;
+        const enteredPassword = document.getElementById("loginPassword").value;
+
+        const savedUsername = localStorage.getItem("registeredUsername");
+        const savedPassword = localStorage.getItem("registeredPassword");
+
+        const messageDiv = document.getElementById("message");
+
+        if (enteredUsername === savedUsername && enteredPassword === savedPassword) {
+            messageDiv.style.color = "green";
+            messageDiv.innerText = "✅ Login successful!";
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("messageForm").style.display = "block";
+        } else {
+            messageDiv.style.color = "red";
+            messageDiv.innerText = "❌ Invalid username or password!";
+        }
+    }
+
+    function submitMessage() {
+        const msg = document.getElementById("userMessage").value;
+        const finalMsg = document.getElementById("finalMessage");
+
+        if (msg.trim() === "") {
+            finalMsg.style.color = "red";
+            finalMsg.innerText = "⚠️ Please enter a message before submitting.";
+        } else {
+            finalMsg.style.color = "green";
+            finalMsg.innerText = `🎉 Your message has been submitted: "${msg}"`;
+        }
+    }
+</script>
+
+</body>
+</html>
